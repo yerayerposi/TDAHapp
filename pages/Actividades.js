@@ -4,7 +4,7 @@
  * @flow
  */
 import * as React from 'react';
-import { Platform, StyleSheet, Text, View, StatusBar, Alert ,FlatList} from 'react-native';
+import { Platform, StyleSheet, Text, View, StatusBar, Alert ,FlatList,TouchableOpacity} from 'react-native';
 import Button from '../out/components/Button';
 import UnityView, { UnityModule } from 'react-native-unity-view';
 
@@ -22,18 +22,14 @@ export default class Screen2 extends React.Component {
             unityPaused: false,
             isLoading: true,
             dataSource: responseJson,
+            isVisible:true,
         };
     }
 
-
     componentDidMount() {
-        StatusBar.setHidden(true);
-        StatusBar.setBarStyle('dark-content');
-        if (Platform.OS == 'android') {
-            StatusBar.setBackgroundColor('rgba(255,255,255,0)');
-            StatusBar.setTranslucent(true);
-        }
-    }
+this.onToggleUnity();
+      }
+
     onToggleUnity() {
         this.setState({ renderUnity: !this.state.renderUnity });
     }
@@ -55,6 +51,35 @@ export default class Screen2 extends React.Component {
     this.setState({dataSource: eval(event)});
 
 	}
+  detectado = async () => {
+        const link = 'http://3.14.172.179:8000/usuarios/detectado/'+`${this.state.id}`;
+            this.setState({responser: link}),
+        axios.get(link)
+          .then(function (response) {
+            this.setState({responser: response.status}),
+            // handle success
+            console.log(response);
+          }.bind(this))
+          .catch(function (error) {
+          this.setState({responser: 'error'}),
+           console.log(error);
+   }.bind(this))
+  }
+
+  addpartida = async () => {
+        const link = 'http://3.14.172.179:8000/usuarios/addpartida/'+`${this.state.name}`+'.'+`${this.state.adress}`+'.'+`${this.state.password}`;
+            this.setState({responser: link}),
+        axios.get(link)
+          .then(function (response) {
+            this.setState({responser: response.status}),
+            // handle success
+            console.log(response);
+          }.bind(this))
+          .catch(function (error) {
+          this.setState({responser: 'error'}),
+           console.log(error);
+   }.bind(this))
+  }
 
   renderItem = ({item, index}) => {
       let { d2 } = item;
@@ -83,6 +108,7 @@ export default class Screen2 extends React.Component {
     }
 
 
+
     onUnityMessage(hander) {
 		 Alert.alert('otrop',hander.name);
         setTimeout(() => {
@@ -98,20 +124,14 @@ export default class Screen2 extends React.Component {
         }
 
         return (
+
            React.createElement(View, { style: [styles.container] },
             unityElement,
-            React.createElement(Button, { label: "Toggle Unity", style: styles.button, onPress: this.onToggleUnity.bind(this) }),
-            renderUnity ? React.createElement(Button, { label: "Toggle Rotate", style: styles.button, onPress: this.onToggleRotate.bind(this) }) : null,
-            renderUnity ? React.createElement(Button, { label: unityPaused ? "Resume" : "Pause", style: styles.button, onPress: this.onPauseAndResumeUnity.bind(this) }) : null,
-			renderUnity ? React.createElement(Button, { label:" Enviar", style: styles.button, onPress: this.onToggleRotate.bind(this) }) : null,
+            
 
-      <View>
-        <FlatList
-          data={this.state.dataSource}
-          keyExtractor={this.keyExtractor}
-          renderItem={this.renderItem}
-        />
-      </View>
+
+
+
 
       ));
     }
@@ -120,15 +140,14 @@ const styles = StyleSheet.create({
     container: {
         // flex: 1,
         position: 'absolute', top: 0, bottom: 0, left: 0, right: 0,
-        marginTop: 30,
         backgroundColor: '#F5FCFF',
     },
     welcome: {
         fontSize: 20,
         textAlign: 'center',
-        margin: 10,
+        margin: 40,
     },
     button: {
-        marginTop: 10
+        marginTop: 40
     }
 });

@@ -18,11 +18,15 @@ import Condiciones from './pages/Condiciones';
 import LoginScreen from './pages/LoginScreen';
 import Registro from './pages/Registro';
 import Perfiles from './pages/Perfiles';
+import Perfiles2 from './pages/Perfiles2';
+import Perfil from './pages/Perfil';
 import ScanScreen from './pages/Camara';
+import Detectados from './pages/detectados';
+import Faq from './pages/Faq';
 //Import Custom Sidebar
 import CustomSidebarMenu from './pages/CustomSidebarMenu';
 import CustomSidebarMenuProfesional from './pages/CustomSidebarMenuProfesional';
-
+Detectados
 global.currentScreenIndex = 0;
 //Navigation Drawer Structure for all screen
 class NavigationDrawerStructure extends Component {
@@ -124,6 +128,25 @@ const StackNavigatorPersonal = createStackNavigator({
   },
 });
 
+const Faq_StackNavigator = createStackNavigator({
+  //All the screen from the First Option will be indexed here
+  First: {
+    screen: Faq,
+    navigationOptions: ({ navigation }) => ({
+      title: '            Faq',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+
+        backgroundColor: '#523FFF',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+      fontWeight: 'bold',
+      fontSize: 24,
+    },
+    }),
+  },
+});
 const StackNavigatorProfesional = createStackNavigator({
   //All the screen from the First Option will be indexed here
   First: {
@@ -161,12 +184,27 @@ const Actividades_StackNavigator = createStackNavigator({
 });
 
 //Stack Navigator for the Third Option of Navigation Drawer
-const Formulario_StackNavigator = createStackNavigator({
+const Perfil_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
   Third: {
-    screen: Formulario,
+    screen: Perfil,
     navigationOptions: ({ navigation }) => ({
-      title: '                   Pruebas',
+      title: '                   Perfil',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#523FFF',
+      },
+      headerTintColor: '#fff',
+    }),
+  },
+});
+
+const Detectados_StackNavigator = createStackNavigator({
+  //All the screen from the Third Option will be indexed here
+  Third: {
+    screen: Detectados,
+    navigationOptions: ({ navigation }) => ({
+      title: '                   Detectados',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: '#523FFF',
@@ -197,7 +235,7 @@ const Perfiles_StackNavigator = createStackNavigator({
   four: {
     screen: Perfiles,
     navigationOptions: ({ navigation }) => ({
-      title: '            Perfiles',
+      title: '          Perfiles',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
 
       headerStyle: {
@@ -208,6 +246,22 @@ const Perfiles_StackNavigator = createStackNavigator({
   },
 });
 
+
+const Perfiles2_StackNavigator = createStackNavigator({
+  //All the screen from the Second Option will be indexed here
+  four: {
+    screen: Perfiles2,
+    navigationOptions: ({ navigation }) => ({
+      title: '       Casos detectados',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+
+      headerStyle: {
+        backgroundColor: '#523FFF',
+      },
+      headerTintColor: '#fff',
+    }),
+  },
+});
 //Drawer Navigator Which will provide the structure of our App
 
 const DrawerNavigatorPersonal = createDrawerNavigator(
@@ -219,36 +273,12 @@ const DrawerNavigatorPersonal = createDrawerNavigator(
         drawerLabel: 'Personal',
       },
     },
-    NavActividades: {
-      screen: Actividades_StackNavigator,
+    NavFaq: {
+      screen: Faq_StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Actividades',
+        drawerLabel: 'Faq',
       },
-    },
-    NavPerfiles: {
-      screen: Perfiles_StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Perfiles',
-      },
-    },
-    NavFormulario: {
-      screen: Formulario_StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Formulario',
-      },
-    },
-    NavResultados: {
-      screen: Resultados_StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Resultados',
-      },
-    },
-    NavCamara: {
-      screen: ScanScreen,
-    },
-
-    Registro:{screen: Registro},
-    logout:{screen:LoginScreen},
+},
   },
   {
     //For the Custom sidebar menu we have to provide our CustomSidebarMenu
@@ -270,22 +300,29 @@ const DrawerNavigatorPro = createDrawerNavigator(
         drawerLabel: 'Profesional',
       },
     },
-    NavActividades: {
-      screen: Actividades_StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Actividades',
-      },
-    },
+
     NavPerfiles: {
       screen: Perfiles_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Perfiles',
       },
     },
-    NavFormulario: {
-      screen: Formulario_StackNavigator,
+    NavPerfiles2: {
+      screen: Perfiles2_StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Formulario',
+        drawerLabel: 'Perfiles2',
+      },
+    },
+    NavPerfil: {
+      screen: Perfil_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Perfil',
+      },
+    },
+    NavDetectados: {
+      screen: Detectados_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Perfil',
       },
     },
     NavResultados: {
@@ -294,12 +331,11 @@ const DrawerNavigatorPro = createDrawerNavigator(
         drawerLabel: 'Resultados',
       },
     },
+
     NavCamara: {
       screen: ScanScreen,
     },
 
-    Registro:{screen: Registro},
-    logout:{screen:LoginScreen},
   },
   {
     //For the Custom sidebar menu we have to provide our CustomSidebarMenu
@@ -319,9 +355,11 @@ const ModalStack = createStackNavigator({
     logout:{screen:LoginScreen},
     Registro:{screen: Registro},
     login:{screen:DrawerNavigatorPersonal},
-    loginpro:{screen:DrawerNavigatorPro},
-    Condiciones: {screen: Condiciones},
+    NavActividades: {screen: Actividades
+    },
 
+    loginpro:{screen:DrawerNavigatorPro},
+    Condiciones: {screen: Condiciones}
 },{
     mode:'modal',
     headerMode:'none'

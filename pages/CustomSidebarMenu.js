@@ -7,32 +7,32 @@ import QRCode from 'react-native-qrcode-svg';
 import {NavigationActions} from 'react-navigation';
 
 export default class CustomSidebarMenu extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     //Setting up the Main Top Large Image of the Custom Sidebar
 
     //Array of the sidebar navigation option with icon and screen to navigate
     //This screens can be any screen defined in Drawer Navigator in App.js
     //You can find the Icons from here https://material.io/tools/icons/
+    this.items = [
+      {
+        navOptionThumb: 'home',
+        navOptionName: 'Home',
+        screenToNavigate: 'NavPersonal',
+      },
+      {
+        navOptionThumb: 'question',
+        navOptionName: 'FAQs',
+        screenToNavigate: 'NavFaq',
+      },
 
-  this.items = [
-    {
-      navOptionThumb: 'home',
-      navOptionName: 'Home',
-      screenToNavigate: 'NavPersonal',
-    },
-    {
-      navOptionThumb: 'question',
-      navOptionName: 'FAQs',
-      screenToNavigate: 'NavFormulario',
-    },
-
-  ];
-}
+    ];
+  }
 
 
 
   render() {
+    const nuevo = global.id;
     return (
       <View style={styles.sideMenuContainer}>
         {/*Top Large Image */}
@@ -44,7 +44,7 @@ export default class CustomSidebarMenu extends Component {
 
           </View>
         <QRCode
-              value='Pruebas'
+              value= {"" + global.ausuario}
               size={200}
             />
 
@@ -82,7 +82,7 @@ export default class CustomSidebarMenu extends Component {
                 }}
                 onPress={() => {
                   global.currentScreenIndex = key;
-                  this.props.navigation.replace(item.screenToNavigate);
+                  this.props.navigation.navigate(item.screenToNavigate);
                 }}>
                 {item.navOptionName}
               </Text>

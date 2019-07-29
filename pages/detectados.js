@@ -5,7 +5,7 @@ import React, { Component } from 'react';
   import { AppRegistry, StyleSheet, FlatList, Text, View, Alert, ActivityIndicator, Platform,Button, TouchableOpacity} from 'react-native';
   import {StackActions} from 'react-navigation';
 // import all basic components
-
+import * as axios from 'axios';
 export default class Perfiles extends Component {
 
     constructor(props)
@@ -20,9 +20,10 @@ export default class Perfiles extends Component {
 
     componentDidMount() {
 
-         return fetch('http://3.14.172.179:8000/usuarios/perfiles/'+`${global.id}`)
+         return fetch('http://3.14.172.179:8000/usuarios/detectados/'+`${global.id}`)
            .then((response) => response.json())
            .then((responseJson) => {
+  
              this.setState({
                isLoading: false,
                dataSource: responseJson
@@ -67,13 +68,6 @@ global.nav = 'NavPerfil';
       return (
 
   <View style={styles.MainContainer}>
-  <TouchableOpacity style={styles.button_2} onPress={() => {
-    this.props.navigation.dispatch(StackActions.popToTop());
-    this.props.navigation.navigate('NavPerfiles2');
-    }}>
-      <Text style={styles.textButton}>Casos detectados</Text>
-  </TouchableOpacity>
-
          <FlatList
 
             data={ this.state.dataSource }
@@ -82,6 +76,8 @@ global.nav = 'NavPerfil';
 
             renderItem={({item}) =>   <TouchableOpacity style={styles.button2} onPress={() => {
                   global.idusuario = item.id;
+
+
                   this.props.navigation.dispatch(StackActions.popToTop());
                   this.props.navigation.navigate('NavPerfil');
                 }}><View style={styles.caja} ><Text style={styles.FlatListItemStyle} > {item.nombreUsuario} </Text>
@@ -99,18 +95,6 @@ global.nav = 'NavPerfil';
   }
 
   const styles = StyleSheet.create({
-    textButton: {
-        color:'#fff',
-        textAlign: 'center',
-        textTransform: 'uppercase',
-        fontWeight: 'bold'
-    },
-    button_2: {
-        backgroundColor:'#1B6DE5',
-        margin:5,
-        padding:10,
-        borderRadius: 3
-    },
     image: {
         height: 200,
         width: 200,

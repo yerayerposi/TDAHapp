@@ -21,7 +21,7 @@
     "react-native-easy-grid": "^0.2.1",
     "react-native-elements": "^1.1.0",
     "react-native-gesture-handler": "^1.0.5",
-    "react-native-html-to-pdf": "^0.7.0",
+    "react-native-html-to-pdf": "^0.8.0",
     "react-native-qrcode-scanner": "^1.2.1",
     "react-native-qrcode-svg": "^5.1.2",
     "react-native-qrcosde-scanner": "^1.2.1",

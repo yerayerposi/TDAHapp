@@ -46,7 +46,7 @@ export default class CustomSidebarMenu extends Component {
 
           </View>
         <QRCode
-              value='Pruebas'
+              value= {"" + global.id}
               size={200}
             />
 

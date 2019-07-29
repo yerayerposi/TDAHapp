@@ -13,34 +13,41 @@ import {
 } from 'react-native';
 import * as axios from 'axios';
 
-import { SegmentedControls } from 'react-native-radio-buttons'
+import { SegmentedControls, RadioButtons  } from 'react-native-radio-buttons'
 
 export default class Registro extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            address: '',
+            opcion: '',
+            edad: '',
             email: '',
             username: '',
-            password: ''
+            password: '',
+            rol: 'Ninguno',
+            rolu: null,
         };
     }
 
 
 registro = async () => {
-      const link = 'http://3.14.172.179:8000/usuarios/register/'+`${this.state.name}`+'.'+`${this.state.adress}`+'.'+`${this.state.password}`+'.'+`${this.state.username}`+'.'+`${'nada'}`+'.'+`${'nada'}`+'.'+`${this.state.email}`;
+      const link = 'http://3.14.172.179:8000/usuarios/register/'+`${this.state.username}`+'.'+`${this.state.password}`+'.1.'+`${this.state.rolu}`+'.'+`${this.state.edad}`+'.0.0';
+
           this.setState({responser: link}),
       axios.get(link)
         .then(function (response) {
-          this.setState({responser: response.status}),
-          this.props.navigation.navigate('NavScreen1');
-          // handle success
+          global.usuario = this.state.username,
+          this.setState({responser: response.status})
+          if(this.state.rolu > 0){
+            this.props.navigation.navigate('loginpro');
+          }else{
+            this.props.navigation.navigate('login');
+          }
           console.log(response);
         }.bind(this))
         .catch(function (error) {
         this.setState({responser: 'error'}),
-            Alert.alert('Autentificación',link)
+
          console.log(error);
  }.bind(this))
 
@@ -51,13 +58,29 @@ registro = async () => {
     "Personal",
     "Profesional"
   ];
+  function setSelectedOption(selectedOption){
+    this.setState({
+      rol: selectedOption
+    });
+    if(selectedOption === "Personal"){
+  this.setState({
+    rolu: 0
+  });
+}else{
+  this.setState({
+    rolu: 1
+  });
+}
+}
         return (
             <View style={styles.view}>
                 <ScrollView>
+
                   <View style={styles.first_label}>
                       <Image source={require("../image/user-shape.png")} style={styles.image}/>
 
                   </View>
+
                     <Text style={styles.text}>Nombre de usuario</Text>
                     <TextInput style={styles.first_input} value={this.state.username} placeholder={'Nombre de usuario'}
                         onChangeText={(text) => this.setState({username: text})}
@@ -74,20 +97,21 @@ registro = async () => {
                     />
 
                     <Text style={styles.text}>Repetir contraseña</Text>
-                    <TextInput style={styles.first_input} value={this.state.password} placeholder={'Contraseña'}
-                        onChangeText={(text) => this.setState({password: text})}
+                    <TextInput style={styles.first_input} placeholder={'Repetir contraseña'}
+
                     />
 
                     <Text style={styles.text}>¿Que edad tienes?</Text>
-                    <TextInput style={styles.first_input} value={this.state.password} placeholder={'Contraseña'}
-                        onChangeText={(text) => this.setState({password: text})}
+                    <TextInput style={styles.first_input} value={this.state.edad} placeholder={'Edad'}
+                        onChangeText={(text) => this.setState({edad: text})}
                     />
 
                     <Text style={styles.text}>¿Que uso le piensas dar a la app?</Text>
+                    <Text style={styles.text}>Uso seleccionado: {this.state.rol}</Text>
                     <SegmentedControls
-                        tint={'FFFFFF'}
 
                         options={ options }
+                        onSelection={ setSelectedOption.bind(this) }
                     />
 
                       <Text style={styles.text}>Al registrarte aceptas las condiciones de uso</Text>

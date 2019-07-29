@@ -2,7 +2,7 @@
 //This Example is for React Navigation 3.+//
 import React, { Component } from 'react';
 //import react in our code.
-import { StyleSheet, View, Text, Button, TouchableOpacity,Image } from 'react-native';
+import { StyleSheet, View, Text, Button, TouchableOpacity,Image,Alert } from 'react-native';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { Icon } from 'react-native-elements';
 import StepModal from "react-native-step-modal";
@@ -11,72 +11,152 @@ import StepModal from "react-native-step-modal";
 
 export default class Personal extends Component {
   //Personal Component
+  constructor(props) {
+      super(props);
+      this.state = {
+          clickCount: 0,
+          datos:"hola",
+          renderUnity: false,
+          unityPaused: false,
+          isLoading: true,
+          dataSource: 'responseJson',
+          isVisible:true,
+      };
+  }
 
 
-renderResults=() =>{
-  this.setState({
-    isVisible:true
-  })
+
+componentDidMount() {
+  if(global.completado > 0){
+    this.setState({
+      isVisible:false
+    })
+  }
+
+  return fetch('http://3.14.172.179:8000/usuarios/completado/'+`${global.id}`)
+    .then((response) => response.json())
+    .then((responseJson) => {
+
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
 }
+
+
+
   render() {
+
+
     let Component1 =  <View>
                           <Image source={require("../image/balance.png")} style={styles.image}/>
 
-    <Text> Bienvenido/a a la aplicación de Detección de Tdah, </Text>
-    <Text> para empezar, te daremos unos consejos de como </Text>
-    <Text> utilizar la aplicación para que puedas sacarle el </Text>
-    <Text> máximo provecho. </Text>
+    <Text>Bienvenido/a a la aplicación de Detección de Tdah, </Text>
+    <Text>para empezar, te daremos unos consejos de como </Text>
+    <Text>utilizar la aplicación para que puedas sacarle el </Text>
+    <Text>máximo provecho. </Text>
     <Text> </Text>
     </View>
     let Component2 =
-    <View><Text> Para empezar...</Text>
-    <Text> Despues...</Text>
-    <Text> y...</Text>
+    <View>
+    <Text></Text>
+    <Text></Text>
+    <Icon
+      name="face"
+      type='material'
+      color= '#1A63FD'
+      size={150}
+    />
+    <Text></Text>
+    <Text></Text>
+    <Text>La aplicación está diseñada para ayudar en </Text>
+    <Text>la detección de TDA-H, para ello necesitamos que </Text>
+    <Text>estés en un lugar tranquilo.</Text>
     </View>
+    let Component3 =
+    <View>
+    <Text></Text>
+    <Text></Text>
+    <Icon
+      name="announcement"
+      type='material'
+      color= '#1A63FD'
+      size={150}
+    />
+    <Text></Text>
+    <Text></Text>
+    <Text>Lee las indicaciones antes de continuar con </Text>
+    <Text>las pruebas, no seguir las indicaciones puede  </Text>
+    <Text>influir en los resultados.</Text>
+    </View>
+    let Component4 =
+    <View>
+    <Text></Text>
+    <Text></Text>
+    <Icon
+      name="extension"
+      type='material'
+      color= '#1A63FD'
+      size={150}
+    />
+    <Text></Text>
+    <Text></Text>
+    <Text>Cada prueba tiene sus propias indicaciones, lee </Text>
+    <Text>las indicaciones atentamente antes de realizarlas,</Text>
+    <Text>asegúrate que entiendes bien las reglas.  </Text>
+    </View>
+
+
+
     return (
-      <View>
 
       <View>
-             <StepModal stepComponents={[Component1, Component2,Component2,Component2,Component2]} />
+
+{this.state.isVisible?
+      <View>
+             <StepModal stepComponents={[Component1, Component2,Component3,Component4]} />
           </View>
-
+:null}
           <View >
           <Button
 
             title={"Bienvenido "+global.usuario}
             />
             </View>
-
-
+  <View style={styles.caja}>
+            <Text style={{ fontSize: 20 }}> </Text>
+            <Text style={{ fontSize: 18 }}> </Text>
+            <Text style={{ fontSize: 18 }}>Bienvenido, antes de empezar nos gustaría darte unas recomendaciones:</Text>
+            <Text style={{ fontSize: 10 }}> </Text>
+            <Text style={{ fontSize: 16 }}>     1.- Busca un lugar cómodo y tranquilo donde realizar las pruebas.</Text>
+            <Text style={{ fontSize: 10 }}> </Text>
+            <Text style={{ fontSize: 16 }}>     2.- Procura que nadie te interrumpa durante el proceso.</Text>
+            <Text style={{ fontSize: 10 }}> </Text>
+            <Text style={{ fontSize: 16 }}>     3.- No permitas que nadie te ayude a realizar las pruebas.</Text>
+            <Text style={{ fontSize: 10 }}> </Text>
+            <Text style={{ fontSize: 18 }}>Cuando estés preparado pulsa continuar.</Text>
+            </View>
       <View style={styles.caja}>
-        <Text style={{ fontSize: 20 }}> </Text>
-        <Text style={{ fontSize: 18 }}> </Text>
-        <Text style={{ fontSize: 18 }}>Bienvenido, antes de empezar nos gustaría darte unas recomendaciones:</Text>
-        <Text style={{ fontSize: 10 }}> </Text>
-        <Text style={{ fontSize: 16 }}>     1.- Busca un lugar cómodo y tranquilo donde realizar las pruebas.</Text>
-        <Text style={{ fontSize: 10 }}> </Text>
-        <Text style={{ fontSize: 16 }}>     2.- Procura que nadie te interrumpa durante el proceso.</Text>
-        <Text style={{ fontSize: 10 }}> </Text>
-        <Text style={{ fontSize: 16 }}>     3.- No permitas que nadie te ayude a realizar las pruebas.</Text>
-        <Text style={{ fontSize: 10 }}> </Text>
-        <Text style={{ fontSize: 18 }}>Cuando estés preparado pulsa continuar.</Text>
 
         <View style={styles.mini}>
         <Icon
         raised
-name='play'
-type='font-awesome'
-color='#AB3A87' />
+  name='play'
+  type='font-awesome'
+  color='#AB3A87' />
   <TouchableOpacity   onPress={() => {
-      global.currentScreenIndex = 0;
+      global.currentScreenIndex = 0,
+
       this.props.navigation.navigate('NavActividades');
     }}>
 
-        <Text style={{ fontSize: 24, color : '#FFFFFF'}}>Continuar</Text>
+        <Text style={{ fontSize: 24, color : '#FFFFFF'}}>Actividades</Text>
         </TouchableOpacity>
         </View>
       </View>
-</View>
+
+  </View>
 
     );
   }

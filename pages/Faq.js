@@ -6,7 +6,7 @@ import { StyleSheet, View, Text,ScrollView,TextInput,TouchableOpacity,Image } fr
 // import all basic components
 import { Icon } from 'react-native-elements';
 
-export default class Formulario extends Component {
+export default class Faq extends Component {
   //Formulario Component
   constructor(props) {
       super(props);
@@ -27,34 +27,20 @@ export default class Formulario extends Component {
       <View style={styles.view}>
           <ScrollView>
           <View style={styles.first_label}>
-              <Image source={require("../image/user-shape.png")} style={styles.image}/>
-
+          <Icon
+          raised
+    name='question '
+    type='material'
+    color= '#1A63FD'
+    size={50} />
           </View>
           <Text style={{ fontSize: 18 }}> </Text>
-          <Text style={{ fontSize: 18 }}>Usuario: PEPE</Text>
-          <Text style={{ fontSize: 18 }}>Has añadido este perfil el día: 08/07/2019</Text>
-          <Text style={{ fontSize: 18 }}> </Text>
-          <Text style={{ fontSize: 18 }}> </Text>
-
-          <View style={styles.caja}>
-
-            <TouchableOpacity style={styles.button2} onPress={() => {
-                this.registro()
-              }}>
-                <Text style={styles.textButton}>Acceder a los resultados</Text>
-            </TouchableOpacity>
-
-
-
-
-
-    <TouchableOpacity style={styles.button} onPress={() => {
-        this.registro()
-      }}>
-        <Text style={styles.textButton}>Desvincular perfil</Text>
-    </TouchableOpacity>
-
-          </View>
+          <Text style={{ fontSize: 20 }}>¿Quienes somos?</Text>
+          <Text style={{ fontSize: 16 }}>Somos dos estudiantes del grado de ingenieria informática.</Text>
+          <Text style={{ fontSize: 20 }}>Pregunta1</Text>
+          <Text style={{ fontSize: 16 }}>Respuesta1</Text>
+          <Text style={{ fontSize: 20 }}>Pregunta2</Text>
+          <Text style={{ fontSize: 16 }}>Respuesta3</Text>
           </ScrollView>
       </View>
     );
@@ -66,7 +52,12 @@ const styles = StyleSheet.create({
       backgroundColor:'#FF3131',
       margin:20,
       padding:10,
+      marginLeft: 85,
       borderRadius: 3
+  },
+  first_label: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
       height: 200,

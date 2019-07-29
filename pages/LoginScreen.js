@@ -10,7 +10,9 @@ import {
     PermissionsAndroid,
     TextInput,
     Button,Alert,
-    Icon
+    Icon,
+    StatusBar,
+    Platform
 } from 'react-native';
 import * as axios from 'axios';
 
@@ -27,24 +29,48 @@ export default class Login1 extends Component {
             renderUnity: false,
             unityPaused: false,
             isLoading: true,
-            dataSource: 'responseJson',
+            dataSource: [],
         };
+    }
+
+    componentDidMount() {
+        StatusBar.setHidden(true);
+        StatusBar.setBarStyle('dark-content');
+        if (Platform.OS == 'android') {
+            StatusBar.setBackgroundColor('rgba(255,255,255,0)');
+            StatusBar.setTranslucent(true);
+        }
     }
 
     login = async () => {
       const link = 'http://3.14.172.179:8000/usuarios/login/'+`${this.state.username}` + '.' + `${this.state.password}`;
-      global.usuario= this.state.username;
+
           this.setState({responser: link}),
+
       axios.get(link)
         .then(function (response) {
           this.setState({responser: response.status}),
-          this.props.navigation.navigate('NavPersonal');
+          this.setState({dataSource: response.data}),
+          global.usuario= this.state.dataSource[0].nombreUsuario;
+          global.id = this.state.dataSource[0].id;
+          global.email = this.state.dataSource[0].email;
+          global.rol = this.state.dataSource[0].rol;
+          global.edad = this.state.dataSource[0].edad;
+          global.completado = this.state.dataSource[0].completado;
+          global.detectado = this.state.dataSource[0].detectado;
+          global.fecha = this.state.dataSource[0].fecha;
+          global.diagnostico = this.state.dataSource[0].diagnostico;
+          if(global.rol > 0){
+            this.props.navigation.navigate('loginpro');
+          }else{
+            this.props.navigation.navigate('login');
+          }
+
           // handle success
           console.log(response);
         }.bind(this))
         .catch(function (error) {
         this.setState({responser: 'error'}),
-        this.props.navigation.navigate(this.state.team);
             Alert.alert('Autentificación','Lo sentimos, el usuario y/o la contraseña es incorrecta'),
          console.log(error);
  }.bind(this))
@@ -83,25 +109,7 @@ export default class Login1 extends Component {
                         <Text style={styles.textButton2}>Registrarse</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.button_2} onPress={() => {
-                        global.currentScreenIndex = 0;
 
-                        this.props.navigation.navigate('loginpro');
-
-                      }}>
-
-                        <Text style={styles.textButton2}>Entrar Profesional</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.button_2} onPress={() => {
-                        global.currentScreenIndex = 0;
-
-                        this.props.navigation.navigate('login');
-
-                      }}>
-
-                        <Text style={styles.textButton2}>Entrar Personal</Text>
-                    </TouchableOpacity>
 
                 </ScrollView>
             </View>
